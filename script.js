@@ -65,4 +65,42 @@ const views = {
   <div class="grid">${GAMES.filter(g => lib[g.id] && (S.tab === 'All' || lib[g.id] === S.tab)).map(g => card(g, lib[g.id])).join('') || emptyMsg(['Belum ada game di sini', 'Buka Explore dan tambahkan game ke library kamu.'])}</div>`;
  }
 };
+// ---------- Explore grid (dirender terpisah agar input tidak kehilangan fokus) ----------
+function drawGrid() {
+  const q = S.q.trim().toLowerCase();
+  const list = GAMES.filter(g => (S.genre === 'All' || g.tags.includes(S.genre)) && (!q || g.n.toLowerCase().includes(q) || g.tags.join(' ').toLowerCase().includes(q)))
+    .sort((a, b) => S.sort === 'name' ? a.n.localeCompare(b.n) : S.sort === 'new' ? b.y - a.y : b.r - a.r);
+  $('#grid').innerHTML = list.map(g => card(g)).join('') || emptyMsg(['Game tidak ditemukan', 'Coba kata kunci atau filter lain.']);
+  $('#count').textContent = `${list.length} games found`;
+}
+
+// ---------- Router ----------
+function route() {
+  const [, page = 'home', arg] = location.hash.split('/');
+  const name = views[page] ? page : 'home';
+  app.innerHTML = views[name](arg);
+  document.querySelectorAll('[data-nav]').forEach(a => a.classList.toggle('on', a.dataset.nav === (name === 'game' ? 'explore' : name)));
+  if (name === 'explore') { $('#sort').value = S.sort; drawGrid(); }
+  document.title = name === 'game' && find(arg) ? `${find(arg).n} • GameHub` : 'GameHub';
+  window.scrollTo(0, 0);
+}
+
+// ---------- Events ----------
+document.addEventListener('click', e => {
+  const c = e.target.closest('[data-cycle],[data-genre],[data-tab],[data-add],[data-th],#fav');
+  if (!c) return;
+  if (c.dataset.cycle) { e.preventDefault(); lib[c.dataset.cycle] = STATUS[(STATUS.indexOf(lib[c.dataset.cycle]) + 1) % 3]; save(); route(); }
+  else if (c.dataset.genre) { S.genre = c.dataset.genre; document.querySelectorAll('[data-genre]').forEach(b => b.classList.toggle('on', b === c)); drawGrid(); }
+  else if (c.dataset.tab) { S.tab = c.dataset.tab; route(); }
+  else if (c.dataset.add) { const id = c.dataset.add; lib[id] ? delete lib[id] : lib[id] = 'Playing'; save(); route(); }
+  else if (c.dataset.th) { const t = c.querySelector('img'), cov = $('#cov'); document.querySelectorAll('.thumbs button').forEach(b => b.classList.toggle('on', b === c)); if (c.dataset.src) { cov.src = c.dataset.src; cov.style.objectPosition = '50% 50%'; } else cov.style.objectPosition = t.style.getPropertyValue('--o'); }
+  else if (c.id === 'fav') { const on = c.getAttribute('aria-pressed') !== 'true'; c.setAttribute('aria-pressed', on); c.textContent = on ? '♥' : '♡'; }
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'q') { S.q = e.target.value; drawGrid(); }
+  if (e.target.id === 'sort') { S.sort = e.target.value; drawGrid(); }
+});
+$('#navSearch').addEventListener('submit', e => { e.preventDefault(); S.q = $('#navQ').value; S.genre = 'All'; location.hash === '#/explore' ? route() : location.hash = '#/explore'; });
+window.addEventListener('hashchange', route);
+route();
 
