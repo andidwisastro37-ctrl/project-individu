@@ -1,1 +1,18 @@
+// ---------- Data ----------
+const GAMES = [
+ {id:'valorant',n:'Valorant',r:9.1,t:'Shooter,Tactical,Multiplayer',img:'Valorant.png',shots:['Valorant.png','Valorant1.jpg','Valorant2.jpg'],y:2020,dev:'Riot Games',pf:'PC',d:'5v5 tactical shooter yang memadukan tembakan presisi dengan kemampuan unik tiap agent. Pasang strategi, pegang site, dan menangkan ronde.'},
+ {id:'cs2',n:'Counter-Strike 2',r:9.0,t:'Shooter,Competitive,Multiplayer',img:'Cs2.png',shots:['Cs2.png','Cs21.jpg','Cs221.jpg'],y:2023,dev:'Valve',pf:'PC (Steam)',d:'Shooter kompetitif berbasis ronde: tim teroris menanam bom, tim counter-terrorist menjinakkannya. Tiap peluru dan granat berarti.'},
+ {id:'ark',n:'ARK: Survival',r:8.3,t:'Survival,Open World,Co-op',img:'Ark.jpg',shots:['Ark.jpg','ark1.jpg','Ark2.jpg'],y:2017,dev:'Studio Wildcard',pf:'PC • Console',d:'Bertahan hidup di dunia prasejarah: jinakkan dinosaurus, bangun markas, dan hadapi alam yang keras.'},
+ {id:'terraria',n:'Terraria',r:9.4,t:'Sandbox,Adventure,Co-op',img:'Terraria.jpg',shots:['Terraria.jpg','Terraria1.jpg','Terraria2.jpg'],y:2011,dev:'Re-Logic',pf:'PC • Console • Mobile',d:'Petualangan 2D penuh aksi: gali, bangun, buat peralatan, dan kalahkan boss bersama teman.'},
+ {id:'minecraft',n:'Minecraft',r:9.5,t:'Sandbox,Creative,Multiplayer',img:'Minecraft.jpg',shots:['Minecraft.jpg','Minecraft1.jpg','Minecraft2.jpg'],y:2011,dev:'Mojang Studios',pf:'PC • Console • Mobile',d:'Dunia blok tanpa batas untuk menambang, meracik, dan membangun apa saja, sendiri atau bersama teman.'},
+ {id:'dbd',n:'Dead by Daylight',r:8.2,t:'Horror,Asymmetric,Multiplayer',img:'Dbd.jpg',shots:['Dbd.jpg','Dbd1.jpg','Dbd2.jpg'],y:2016,dev:'Behaviour Interactive',pf:'PC • Console • Mobile',d:'Horor asimetris: satu pembunuh memburu empat survivor yang harus memperbaiki generator dan kabur.'},
+ {id:'peak',n:'Peak',r:8.8,t:'Co-op,Climbing,Multiplayer',img:'Peak.jpg',shots:['Peak.jpg','Peak1.jpg','Peak2.jpg'], y:2025,dev:'Aggro Crab & Landfall',pf:'PC (Steam)',d:'Game co-op mendaki gunung berbahaya. Bekerja samalah dengan teman agar sampai ke puncak.'},
+ {id:'rust',n:'Rust',r:8.4,t:'Survival,Open World,Multiplayer',img:'Rust.png',shots:['RusT.jpg','Rust1.jpg','Rust2.jpg'],y:2018,dev:'Facepunch Studios',pf:'PC • Console',d:'Survival multiplayer: kumpulkan sumber daya, bangun markas, dan bertahan dari pemain lain.'},
+ {id:'gta',n:'GTA V',r:9.3,t:'Action,Open World,Crime',img:'GTA V.png',shots:['GTA V.png','GTA V1.jpg','GTA V2.jpg'],y:2013,dev:'Rockstar Games',pf:'PC • Console',d:'Aksi dunia terbuka di Los Santos dengan tiga karakter utama yang bisa dimainkan bergantian.'},
+ {id:'cod',n:'Call of Duty: Warzone',r:8.5,t:'Shooter,Military,Multiplayer',img:'Call of Duty.jpg',shots:['Call of Duty.jpg','Call of Duty1.jpg','Call of Duty 3.jpg'],y:2026,dev:'Infinity Ward',pf:'PC • PS5 • Xbox • Switch 2',d:'Shooter militer cepat dengan kampanye, multiplayer, dan mode ekstraksi DMZ.'},
+ {id:'meccha',n:'Meccha Chameleon',r:9.2,t:'Party,Multiplayer,Hide & Seek',img:'Meccha.jpg',shots:['Meccha.jpg','Meccha1.jpg','Meccha2.jpg'],y:2026,dev:'LEMORION',pf:'PC (Steam) • Switch 2',d:'Petak umpet dengan twist: Hider mengecat tubuh putihnya agar menyatu dengan latar, Seeker harus menemukan mereka sebelum waktu habis. Main bareng teman atau masuk server terbuka (2–10 pemain).'}
+].map(g => ({...g, g:g.t.split(',')[0], tags:g.t.split(','), img:g.img || `covers/cover_${g.id}.svg`}));
+const GENRES = ['All','Shooter','Survival','Sandbox','Action','Co-op','Horror','Party'];
+const STATUS = ['Playing','Completed','Wishlist'];
+const DEFAULT_LIB = {valorant:'Playing',cs2:'Playing',minecraft:'Completed',rust:'Wishlist',terraria:'Completed',dbd:'Playing',peak:'Wishlist',gta:'Completed'};
 
